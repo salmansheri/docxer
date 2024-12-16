@@ -224,7 +224,7 @@ export default function Toolbar() {
       {/*  Align */}
       <AlignButton />
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
-      {/* TODO: Line height  */}
+
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
       {/*  List  */}
       <ListButton />
