@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Poppins } from "next/font/google";
 import { Toaster } from "sonner";
+import React from "react";
 
 const poppins = Poppins({
   subsets: ["latin"],
