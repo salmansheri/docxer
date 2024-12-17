@@ -117,79 +117,79 @@ export default function Toolbar() {
     onClick: () => void;
     isActive?: boolean;
   }[][] = [
-      [
-        {
-          label: "Undo",
-          icon: Undo2Icon,
-          onClick: () => editor?.chain().focus().undo().run(),
+    [
+      {
+        label: "Undo",
+        icon: Undo2Icon,
+        onClick: () => editor?.chain().focus().undo().run(),
+      },
+      {
+        label: "Redo",
+        icon: Redo2Icon,
+        onClick: () => editor?.chain().focus().redo().run(),
+      },
+      {
+        label: "Print",
+        icon: PrinterIcon,
+        onClick: () => window.print(),
+      },
+      {
+        label: "Spell Check",
+        icon: SpellCheckIcon,
+        onClick: () => {
+          const current = editor?.view.dom.getAttribute("spellcheck");
+          editor?.view.dom.setAttribute(
+            "spellcheck",
+            current === "false" ? "true" : "false",
+          );
         },
-        {
-          label: "Redo",
-          icon: Redo2Icon,
-          onClick: () => editor?.chain().focus().redo().run(),
+      },
+    ],
+    // 2nd Array
+    [
+      {
+        label: "Bold",
+        icon: BoldIcon,
+        onClick: () => {
+          console.log(editor?.isActive("bold"));
+          return editor?.chain().focus().toggleBold().run();
         },
-        {
-          label: "Print",
-          icon: PrinterIcon,
-          onClick: () => window.print(),
-        },
-        {
-          label: "Spell Check",
-          icon: SpellCheckIcon,
-          onClick: () => {
-            const current = editor?.view.dom.getAttribute("spellcheck");
-            editor?.view.dom.setAttribute(
-              "spellcheck",
-              current === "false" ? "true" : "false",
-            );
-          },
-        },
-      ],
-      // 2nd Array
-      [
-        {
-          label: "Bold",
-          icon: BoldIcon,
-          onClick: () => {
-            console.log(editor?.isActive("bold"));
-            return editor?.chain().focus().toggleBold().run();
-          },
-          isActive: editor?.isActive("bold"),
-        },
-        {
-          label: "Italic",
-          icon: ItalicIcon,
-          onClick: () => editor?.chain().focus().toggleItalic().run(),
-          isActive: editor?.isActive("italic"),
-        },
-        {
-          label: "Underline",
-          icon: UnderlineIcon,
-          onClick: () => editor?.chain().focus().toggleUnderline().run(),
-          isActive: editor?.isActive("underline"),
-        },
-      ],
-      // 3rd Array
-      [
-        {
-          label: "Comment",
-          icon: MessageSquarePlusIcon,
-          onClick: () => console.log("TODO"),
-        },
-        {
-          label: "List Todo",
-          icon: ListTodoIcon,
-          onClick: () => editor?.chain().focus().toggleTaskList().run(),
-          isActive: editor?.isActive("taskList"),
-        },
-        {
-          label: "Remove Formatting",
-          icon: RemoveFormattingIcon,
-          onClick: () => editor?.chain().focus().unsetAllMarks().run(),
-          isActive: editor?.isActive("taskList"),
-        },
-      ],
-    ];
+        isActive: editor?.isActive("bold"),
+      },
+      {
+        label: "Italic",
+        icon: ItalicIcon,
+        onClick: () => editor?.chain().focus().toggleItalic().run(),
+        isActive: editor?.isActive("italic"),
+      },
+      {
+        label: "Underline",
+        icon: UnderlineIcon,
+        onClick: () => editor?.chain().focus().toggleUnderline().run(),
+        isActive: editor?.isActive("underline"),
+      },
+    ],
+    // 3rd Array
+    [
+      {
+        label: "Comment",
+        icon: MessageSquarePlusIcon,
+        onClick: () => console.log("TODO"),
+      },
+      {
+        label: "List Todo",
+        icon: ListTodoIcon,
+        onClick: () => editor?.chain().focus().toggleTaskList().run(),
+        isActive: editor?.isActive("taskList"),
+      },
+      {
+        label: "Remove Formatting",
+        icon: RemoveFormattingIcon,
+        onClick: () => editor?.chain().focus().unsetAllMarks().run(),
+        isActive: editor?.isActive("taskList"),
+      },
+    ],
+  ];
 
   return (
     <div className="bg-zinc-300 px-2.5 py-0.5  min-h-[40px] flex items-center gap-x-0.5 overflow-x-auto">
@@ -227,8 +227,6 @@ export default function Toolbar() {
 
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
       {/*  List  */}
-
-
 
       <ListButton />
 
