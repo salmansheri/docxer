@@ -32,8 +32,6 @@ export default function TextColorButton() {
     }
   }, [editor]);
 
-  console.log(value);
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

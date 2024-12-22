@@ -18,17 +18,12 @@ export default function FontSizeButton() {
 
     if (!isNaN(size) && size > 0) {
       editor?.chain().focus().setFontSize(`${size}px`).run();
-      console.log({
-        fontSize: editor?.chain().focus().setFontSize(`${size}px`).run(),
-      });
-      console.log(editor?.getAttributes("textStyle"));
+
       setFontSize(newSize);
       setInputValue(newSize);
       setIsEditing(false);
     }
   };
-
-  console.log(fontSize);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);

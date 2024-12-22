@@ -3,6 +3,8 @@ import "./globals.css";
 import { Poppins } from "next/font/google";
 import { Toaster } from "sonner";
 import React from "react";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import Providers from "@/lib/providers/react-query-provider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -23,8 +25,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${poppins.variable} dark antialiased`}>
-        <Toaster richColors />
-        {children}
+        <Providers>
+          <Toaster richColors />
+          <NuqsAdapter>{children}</NuqsAdapter>
+        </Providers>
       </body>
     </html>
   );

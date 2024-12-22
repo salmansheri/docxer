@@ -4,7 +4,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from "./ui/dropdown-menu";
+} from "../ui/dropdown-menu";
 import { ChevronDownIcon } from "lucide-react";
 import { type Level } from "@tiptap/extension-heading";
 import { useEffect, useState } from "react";
