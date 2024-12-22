@@ -1,4 +1,4 @@
-import Tiptap from "@/components/tip-tap";
+import Tiptap from "@/components/editor/tip-tap";
 import Toolbar from "./toolbar";
 import { EditorProvider } from "@/hooks/use-editor-store";
 import Navbar from "@/app/documents/[documentId]/components/navbar";

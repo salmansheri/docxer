@@ -23,14 +23,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useEffect, useState } from "react";
-import HeadingLevelButton from "@/components/heading-level-button";
-import TextColorButton from "@/components/text-color-button";
-import TextHighlightButton from "@/components/text-highlight";
-import LinkButton from "@/components/link-button";
-import ImageButton from "@/components/image-button";
-import AlignButton from "@/components/align-button";
-import ListButton from "@/components/list-button";
-import FontSizeButton from "@/components/font-size-button";
+import HeadingLevelButton from "@/components/editor/heading-level-button";
+import TextColorButton from "@/components/editor/text-color-button";
+import TextHighlightButton from "@/components/editor/text-highlight";
+import LinkButton from "@/components/editor/link-button";
+import ImageButton from "@/components/editor/image-button";
+import AlignButton from "@/components/editor/align-button";
+import ListButton from "@/components/editor/list-button";
+import FontSizeButton from "@/components/editor/font-size-button";
 
 interface ToolbarButtonProps {
   onClick: () => void;
@@ -151,7 +151,6 @@ export default function Toolbar() {
         label: "Bold",
         icon: BoldIcon,
         onClick: () => {
-          console.log(editor?.isActive("bold"));
           return editor?.chain().focus().toggleBold().run();
         },
         isActive: editor?.isActive("bold"),
@@ -174,7 +173,7 @@ export default function Toolbar() {
       {
         label: "Comment",
         icon: MessageSquarePlusIcon,
-        onClick: () => console.log("TODO"),
+        onClick: () => {},
       },
       {
         label: "List Todo",

@@ -33,8 +33,6 @@ export default function TextHighlightButton() {
     }
   }, [editor]);
 
-  console.log(value);
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
