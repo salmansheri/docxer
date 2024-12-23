@@ -12,13 +12,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SearchIcon, X } from "lucide-react";
 import { useSearchParam } from "@/hooks/use-search-param";
-import { useRouter } from "next/navigation";
+
 
 const Search: FunctionComponent = () => {
   const [search, setSearch] = useSearchParam("search");
 
   const [value, setValue] = useState<string>(search);
-  const router = useRouter();
+
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -30,7 +30,7 @@ const Search: FunctionComponent = () => {
     setValue("");
     inputRef.current?.blur();
     setSearch("");
-  }, [router]);
+  }, [setSearch]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -64,7 +64,7 @@ const SignUpForm: FC = () => {
   return (
     <Card className="w-full lg:w-[70%]">
       <CardHeader>
-        <CardTitle>Sign Up</CardTitle>
+        <CardTitle>Sign In</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -106,7 +106,7 @@ const SignUpForm: FC = () => {
             <Button className="w-full" size="lg" type="submit">
               {isPending ? (
                 <>
-                  <Loader2 className="" />
+                  <Loader2 className="animate-spin" />
                   Signing In...
                 </>
               ) : (
@@ -121,9 +121,9 @@ const SignUpForm: FC = () => {
           Already have an account?{" "}
           <Link
             className="bg-gradient-to-r from-rose-500 to-rose-700 bg-clip-text text-transparent transition-all  ease-in-out hover:underline"
-            href="/sign-in"
+            href="/sign-up"
           >
-            <span className="hover:underline">Sign In</span>
+            <span className="hover:underline">Sign Up</span>
           </Link>
         </p>
       </CardFooter>

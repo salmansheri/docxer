@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { InsertUserType, SelectUserType } from "@/drizzle/schema";
 import { API_URL } from "@/lib/utils";
@@ -85,6 +85,7 @@ export const useSignOut = () => {
     },
     onSuccess: () => {
       toast.success("Signed Out Successfully");
+      window.location.href = "/sign-in"
     },
     onError: (error) => {
       console.log(error);
@@ -92,3 +93,28 @@ export const useSignOut = () => {
     },
   });
 };
+
+type CurrentUserType = {
+  id: SelectUserType['id'],
+  email: SelectUserType['email'],
+  name: SelectUserType['name'],
+
+}
+
+export const useCurrentUser = () => {
+  return useQuery<CurrentUserType, Error>({
+    queryKey: ['current-user'],
+    queryFn: async () => {
+      const response = await fetch(`${API_URL}/getSession`);
+
+      if(!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+
+      const { data } = await response.json();
+      return data;
+
+    }
+  })
+};
+

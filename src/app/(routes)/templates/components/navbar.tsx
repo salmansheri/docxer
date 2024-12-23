@@ -1,6 +1,7 @@
 import type { FunctionComponent } from "react";
 import Link from "next/link";
 import Search from "@/app/(routes)/templates/components/search";
+import UserAvatar from "@/components/ui/user-avatar";
 
 const Navbar: FunctionComponent = () => {
   return (
@@ -12,6 +13,7 @@ const Navbar: FunctionComponent = () => {
         <h3 className={"text-xl"}>Docs</h3>
       </div>
       <Search />
+      <UserAvatar />
       <div />
     </nav>
   );

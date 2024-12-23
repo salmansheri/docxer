@@ -1,19 +1,12 @@
-import jwt from "jsonwebtoken";
-import { NextResponse } from "next/server";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-const JWT_SECRET = process.env.JWT_SECRET_KEY;
-
-export function middleware(request: NextRequest) {
-  const cookie = request.cookies.get("auth_token");
-  const token = cookie?.value;
-
-  if (!token) {
-    return NextResponse.redirect(new URL("/sign-in", request.url));
-  }
-
+export async function middleware(request: NextRequest) {
   try {
-    jwt.verify(token, JWT_SECRET!);
+    const token = request.cookies.get("auth_token");
+    if (!token) {
+      return NextResponse.redirect(new URL("/sign-in", request.url));
+    }
+
     return NextResponse.next();
   } catch (error) {
     console.log(error);
