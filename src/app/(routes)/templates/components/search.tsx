@@ -13,12 +13,10 @@ import { Button } from "@/components/ui/button";
 import { SearchIcon, X } from "lucide-react";
 import { useSearchParam } from "@/hooks/use-search-param";
 
-
 const Search: FunctionComponent = () => {
   const [search, setSearch] = useSearchParam("search");
 
   const [value, setValue] = useState<string>(search);
-
 
   const inputRef = useRef<HTMLInputElement>(null);
 

@@ -5,14 +5,17 @@ import { useCurrentUser, useSignOut } from "@/hooks/auth/useAuth";
 import { Loader2, LogOutIcon, MailIcon, UserIcon } from "lucide-react";
 import {
   DropdownMenu,
-  DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 
 const UserAvatar: FC = () => {
   const { data, isPending } = useCurrentUser();
-  const { mutate: signOut, isPending: isSignOutPending } = useSignOut()
+  const { mutate: signOut, isPending: isSignOutPending } = useSignOut();
 
   if (isPending || isSignOutPending) {
     return <Loader2 className="animate-spin" />;
@@ -20,7 +23,7 @@ const UserAvatar: FC = () => {
 
   const handleSignOut = () => {
     signOut();
-  }
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -31,9 +34,7 @@ const UserAvatar: FC = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>
-          Profile
-        </DropdownMenuLabel>
+        <DropdownMenuLabel>Profile</DropdownMenuLabel>
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <MailIcon />
@@ -43,7 +44,6 @@ const UserAvatar: FC = () => {
             <UserIcon />
             {data?.name}
           </DropdownMenuItem>
-
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -52,7 +52,6 @@ const UserAvatar: FC = () => {
             Sign Out
           </DropdownMenuItem>
         </DropdownMenuGroup>
-
       </DropdownMenuContent>
     </DropdownMenu>
   );
