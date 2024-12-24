@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import DocumentInput from "@/app/documents/[documentId]/components/document-input";
+import DocumentInput from "@/app/(routes)/documents/[documentId]/components/document-input";
 import {
   Menubar,
   MenubarMenu,
@@ -85,7 +85,7 @@ export default function Navbar() {
   return (
     <nav className={"flex items-center justify-between"}>
       <div className={"flex gap-2 items-center"}>
-        <Link href={"/"}>
+        <Link href={"/public"}>
           <h1 id={"logo"} className={"text-3xl"}>
             Docxer
           </h1>

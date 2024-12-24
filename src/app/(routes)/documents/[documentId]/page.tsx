@@ -1,12 +1,12 @@
 import Tiptap from "@/components/editor/tip-tap";
 import Toolbar from "./toolbar";
 import { EditorProvider } from "@/hooks/use-editor-store";
-import Navbar from "@/app/documents/[documentId]/components/navbar";
+import Navbar from "@/app/(routes)/documents/[documentId]/components/navbar";
 
-interface DocumentIdPageProps {
-  params: Promise<{ documentId: string }>;
-}
-export default async function DocumentIdPage({ params }: DocumentIdPageProps) {
+// interface DocumentIdPageProps {
+//   params: Promise<{ documentId: string }>;
+// }
+export default async function DocumentIdPage() {
   return (
     <div className="min-h-screen bg-[#fafbfd] text-black">
       <EditorProvider>
