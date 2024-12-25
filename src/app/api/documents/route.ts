@@ -27,9 +27,6 @@ export async function POST(request: Request) {
       title: body.title ?? "Untitled Document",
       ownerId: session.user.id as string,
       initialContent: body.initialContent,
-
-
-
     });
 
     return NextResponse.json(

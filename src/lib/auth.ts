@@ -12,7 +12,7 @@ export const auth = betterAuth({
       account: account,
       session: session,
       verification: verification,
-    }
+    },
   }),
   emailAndPassword: {
     enabled: true,

@@ -1,7 +1,7 @@
 "use client";
 import { FC } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { signOut, useSession} from '@/lib/auth-client';
+import { signOut, useSession } from "@/lib/auth-client";
 import { Loader2, LogOutIcon, MailIcon, UserIcon } from "lucide-react";
 import {
   DropdownMenu,
@@ -15,10 +15,9 @@ import {
 import { useRouter } from "next/navigation";
 
 const UserAvatar: FC = () => {
-  const router = useRouter()
+  const router = useRouter();
 
   const { data, isPending } = useSession();
-
 
   if (isPending) {
     return <Loader2 className="animate-spin" />;
@@ -28,11 +27,10 @@ const UserAvatar: FC = () => {
     await signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push("/sign-in")
-        }
-      }
-    })
-
+          router.push("/sign-in");
+        },
+      },
+    });
   };
   return (
     <DropdownMenu>

@@ -52,20 +52,20 @@ export const verification = sqliteTable("verification", {
   updatedAt: integer("updatedAt", { mode: "timestamp" }),
 });
 
-
-
 export const document = sqliteTable("document", {
-  id: text('id').primaryKey(),
+  id: text("id").primaryKey(),
   title: text("title").notNull(),
-  initialContent: text('content'),
-  ownerId: text('ownerId')
+  initialContent: text("content"),
+  ownerId: text("ownerId")
     .notNull()
     .references(() => user.id),
-  roomId: text('roomId'),
-  organizationId: text('organizationId'),
+  roomId: text("roomId"),
+  organizationId: text("organizationId"),
   createdAt: integer("createdAt", { mode: "timestamp" }),
   updatedAt: integer("updatedAt", { mode: "timestamp" }),
 });
 
 export type InsertDocumentType = typeof document.$inferInsert;
 export type SelectDocumentType = typeof document.$inferSelect;
+export type InsertUserType = typeof document.$inferInsert;
+export type SelectUserType = typeof document.$inferSelect;

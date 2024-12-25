@@ -28,7 +28,7 @@ import PasswordInput from "@/components/auth/ui/password-input";
 
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { signUp } from '@/lib/auth-client'
+import { signUp } from "@/lib/auth-client";
 import { toast } from "sonner";
 
 const formSchema = z.object({
@@ -53,26 +53,26 @@ const SignUpForm: FC = () => {
   });
 
   const onSubmit = async (values: FormType) => {
-    await signUp.email({
-      email: values.email,
-      password: values.password,
-      name: values.password,
-    }, {
-      onRequest: () => {
-        setIsLoading(true);
-
+    await signUp.email(
+      {
+        email: values.email,
+        password: values.password,
+        name: values.password,
       },
-      onSuccess: () => {
-        router.push("/templates");
-        setIsLoading(false);
+      {
+        onRequest: () => {
+          setIsLoading(true);
+        },
+        onSuccess: () => {
+          router.push("/templates");
+          setIsLoading(false);
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
+          setIsLoading(false);
+        },
       },
-      onError: (ctx) => {
-        toast.error(ctx.error.message);
-        setIsLoading(false);
-
-      }
-    })
-
+    );
   };
 
   return (
@@ -133,7 +133,12 @@ const SignUpForm: FC = () => {
                 </FormItem>
               )}
             />
-            <Button disabled={isLoading} className="w-full" size="lg" type="submit">
+            <Button
+              disabled={isLoading}
+              className="w-full"
+              size="lg"
+              type="submit"
+            >
               {isLoading ? (
                 <>
                   <Loader2 className="animate-spin" />

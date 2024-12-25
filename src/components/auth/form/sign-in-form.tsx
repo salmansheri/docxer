@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -24,9 +24,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import PasswordInput from "@/components/auth/ui/password-input";
-import { useSignIn } from "@/hooks/auth/useAuth";
+import { signIn } from "@/lib/auth-client";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -37,7 +38,7 @@ type FormType = z.infer<typeof formSchema>;
 
 const SignUpForm: FC = () => {
   const router = useRouter();
-  const { mutate, isPending } = useSignIn();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,16 +48,25 @@ const SignUpForm: FC = () => {
     },
   });
 
-  const onSubmit = (values: FormType) => {
+  const onSubmit = async (values: FormType) => {
     console.log(values);
-    mutate(
+    await signIn.email(
       {
         email: values.email,
-        password: values.password,
+        password: values.email,
       },
       {
+        onRequest: () => {
+          setIsLoading(true);
+        },
         onSuccess: () => {
+          toast.success("Signed In successfully!");
           router.push("/templates");
+          setIsLoading(false);
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
+          setIsLoading(false);
         },
       },
     );
@@ -103,8 +113,13 @@ const SignUpForm: FC = () => {
                 </FormItem>
               )}
             />
-            <Button className="w-full" size="lg" type="submit">
-              {isPending ? (
+            <Button
+              disabled={isLoading}
+              className="w-full"
+              size="lg"
+              type="submit"
+            >
+              {isLoading ? (
                 <>
                   <Loader2 className="animate-spin" />
                   Signing In...
