@@ -1,7 +1,7 @@
 "use client";
 import { FC } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useCurrentUser, useSignOut } from "@/hooks/auth/useAuth";
+import { signOut, useSession} from '@/lib/auth-client';
 import { Loader2, LogOutIcon, MailIcon, UserIcon } from "lucide-react";
 import {
   DropdownMenu,
@@ -12,24 +12,34 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 const UserAvatar: FC = () => {
-  const { data, isPending } = useCurrentUser();
-  const { mutate: signOut, isPending: isSignOutPending } = useSignOut();
+  const router = useRouter()
 
-  if (isPending || isSignOutPending) {
+  const { data, isPending } = useSession();
+
+
+  if (isPending) {
     return <Loader2 className="animate-spin" />;
   }
 
-  const handleSignOut = () => {
-    signOut();
+  const handleSignOut = async () => {
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/sign-in")
+        }
+      }
+    })
+
   };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar className="border border-zinc-200/30">
           <AvatarFallback className="font-bold">
-            {data?.name.charAt(0)}
+            {data?.user?.name.charAt(0)}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -38,11 +48,11 @@ const UserAvatar: FC = () => {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <MailIcon />
-            {data?.email}
+            {data?.user?.email}
           </DropdownMenuItem>
           <DropdownMenuItem>
             <UserIcon />
-            {data?.name}
+            {data?.user?.name}
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

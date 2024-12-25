@@ -4,14 +4,31 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 import { templates } from "@/lib/constants";
+import { useRouter } from "next/navigation";
+import { useInsertDocuments } from "@/hooks/documents/use-insert-documents";
 
 const TemplateGallery: FunctionComponent = () => {
-  const isCreating = false;
+  const router = useRouter();
+
+  const { mutate: insertDocument, isPending: isInsertDocumentPending } =
+    useInsertDocuments();
+
+  const handleTemplateClick = (title: string, initialContent: string) => {
+    insertDocument(
+      {
+        title,
+        initialContent,
+      },
+      {
+        onSuccess: (data) => {
+          router.push(`/documents/${data.id}`);
+        },
+      },
+    );
+  };
 
   return (
     <div>
@@ -28,11 +45,12 @@ const TemplateGallery: FunctionComponent = () => {
                   <div
                     className={cn(
                       "aspect-[3/4] flex flex-col gap-y-2.5",
-                      isCreating && "pointer-events-none",
+                      isInsertDocumentPending && "pointer-events-none",
                     )}
                   >
                     <button
-                      disabled={isCreating}
+                      onClick={() => handleTemplateClick(label, "")}
+                      disabled={isInsertDocumentPending}
                       style={{
                         backgroundImage: `url(${imageUrl}`,
                       }}

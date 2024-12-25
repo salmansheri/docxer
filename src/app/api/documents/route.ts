@@ -1,15 +1,19 @@
 import { NextResponse } from "next/server";
-import { getSession } from "@/lib/server/get-session";
-import { db } from "@/drizzle";
-import { documentsTable } from "@/drizzle/schema";
 
+import { db } from "@/drizzle";
+import { document } from "@/drizzle/schema";
+import { createId } from "@paralleldrive/cuid2";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export async function GET(request: Request) {
   return NextResponse.json({ message: request.text() }, { status: 200 });
 }
 
 export async function POST(request: Request) {
-  const session = await getSession();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -18,10 +22,14 @@ export async function POST(request: Request) {
   const body = await request.json();
 
   try {
-    const user = await db.insert(documentsTable).values({
+    const user = await db.insert(document).values({
+      id: createId(),
       title: body.title ?? "Untitled Document",
-      ownerId: session.id,
+      ownerId: session.user.id as string,
       initialContent: body.initialContent,
+
+
+
     });
 
     return NextResponse.json(

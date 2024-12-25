@@ -50,7 +50,7 @@ export function Header() {
             transition={{
               duration: 1,
               delay: 2,
-              ease: "easeIn"
+              ease: "easeIn",
             }}
             className="text-2xl md:text-3xl text-neutral-400 mb-6 max-w-2xl"
           >
@@ -61,7 +61,6 @@ export function Header() {
             whileTap={{ scale: 0.95 }}
             onHoverStart={() => setIsHovered(true)}
             onHoverEnd={() => setIsHovered(false)}
-
           >
             <Link href="/sign-in">
               <Button

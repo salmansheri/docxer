@@ -57,7 +57,7 @@ export function CTASection() {
             transition={{
               duration: 1,
               delay: 1,
-              ease: "easeInOut"
+              ease: "easeInOut",
             }}
             className="text-lg mb-8 text-neutral-300"
           >
@@ -70,20 +70,17 @@ export function CTASection() {
             whileTap={{ scale: 0.95 }}
             transition={{
               duration: 0.3,
-
             }}
           >
-
-
-          <Link href="/sign-in">
-            <Button
-              size="lg"
-              className="bg-white text-[#db2777] hover:bg-white/90 transition-colors"
-            >
-              Get Started
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
+            <Link href="/sign-in">
+              <Button
+                size="lg"
+                className="bg-white text-[#db2777] hover:bg-white/90 transition-colors"
+              >
+                Get Started
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
           </motion.div>
         </div>
       </div>
