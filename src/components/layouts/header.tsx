@@ -23,6 +23,7 @@ export function Header() {
             }}
             transition={{
               duration: 1.5,
+              delay: 0.5,
               ease: "easeInOut",
             }}
             className="flex items-center gap-2 mb-6"
@@ -48,6 +49,8 @@ export function Header() {
             }}
             transition={{
               duration: 1,
+              delay: 2,
+              ease: "easeIn"
             }}
             className="text-2xl md:text-3xl text-neutral-400 mb-6 max-w-2xl"
           >
@@ -58,9 +61,7 @@ export function Header() {
             whileTap={{ scale: 0.95 }}
             onHoverStart={() => setIsHovered(true)}
             onHoverEnd={() => setIsHovered(false)}
-            transition={{
-              duration: 0.3,
-            }}
+
           >
             <Link href="/sign-in">
               <Button

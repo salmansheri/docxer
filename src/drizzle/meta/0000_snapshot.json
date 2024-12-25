@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "76d64fb8-abe7-46f0-899f-a1654f4e6290",
+  "id": "49fc0a89-7206-4546-8f42-ef7f854b4398",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "documents_table": {
@@ -20,10 +20,52 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "initialContent": {
+          "name": "initialContent",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "ownerId": {
+          "name": "ownerId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "roomId": {
+          "name": "roomId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "organizationId": {
+          "name": "organizationId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "documents_table_ownerId_users_table_id_fk": {
+          "name": "documents_table_ownerId_users_table_id_fk",
+          "tableFrom": "documents_table",
+          "tableTo": "users_table",
+          "columnsFrom": [
+            "ownerId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
@@ -63,7 +105,9 @@
       "indexes": {
         "users_table_email_unique": {
           "name": "users_table_email_unique",
-          "columns": ["email"],
+          "columns": [
+            "email"
+          ],
           "isUnique": true
         }
       },

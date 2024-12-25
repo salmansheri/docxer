@@ -14,4 +14,14 @@ export type SelectUserType = typeof usersTable.$inferSelect;
 export const documentsTable = sqliteTable("documents_table", {
   id: int().primaryKey({ autoIncrement: true }),
   title: text().notNull(),
+  initialContent: text(),
+  ownerId: int().notNull().references(() => usersTable.id),
+  roomId: int(),
+  organizationId: int(),
 });
+
+export type InsertDocumentType = typeof documentsTable.$inferInsert;
+export type SelectDocumentType = typeof documentsTable.$inferSelect;
+
+
+

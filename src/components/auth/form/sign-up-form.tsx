@@ -27,6 +27,7 @@ import { useForm } from "react-hook-form";
 import PasswordInput from "@/components/auth/ui/password-input";
 import { useSignUp } from "@/hooks/auth/useAuth";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is too short").max(255, "Name is too long"),
@@ -37,6 +38,7 @@ const formSchema = z.object({
 type FormType = z.infer<typeof formSchema>;
 
 const SignUpForm: FC = () => {
+  const router = useRouter()
   const { mutate, isPending } = useSignUp();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,6 +54,10 @@ const SignUpForm: FC = () => {
       name: values.name,
       email: values.email,
       password: values.password,
+    }, {
+      onSuccess: () => {
+        router.push("/templates")
+      }
     });
   };
 
