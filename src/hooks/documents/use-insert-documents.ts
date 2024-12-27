@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { API_URL } from "@/lib/utils";
 import { toast } from "sonner";
 import { InsertDocumentType, SelectDocumentType } from "@/drizzle/schema";
@@ -9,6 +9,7 @@ type RequestType = {
 };
 
 export const useInsertDocuments = () => {
+  const queryClient = useQueryClient();
   return useMutation<SelectDocumentType, Error, RequestType>({
     mutationFn: async (json) => {
       const response = await fetch(`${API_URL}/documents`, {
@@ -28,9 +29,13 @@ export const useInsertDocuments = () => {
       const { data } = await response.json();
       return data;
     },
-    onSuccess: () => {
-      toast.success("Signed Up Successfully");
+    onSuccess: async () => {
+      const invalidateQueries = queryClient.invalidateQueries({
+        queryKey: ["documentByOwnerId"],
+      });
+      return await invalidateQueries;
     },
+
     onError: (error) => {
       toast.error(error.message);
     },

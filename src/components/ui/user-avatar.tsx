@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import { motion } from "motion/react";
 
 const UserAvatar: FC = () => {
   const router = useRouter();
@@ -41,25 +42,45 @@ const UserAvatar: FC = () => {
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
+
       <DropdownMenuContent>
-        <DropdownMenuLabel>Profile</DropdownMenuLabel>
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <MailIcon />
-            {data?.user?.email}
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <UserIcon />
-            {data?.user?.name}
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem onClick={handleSignOut}>
-            <LogOutIcon />
-            Sign Out
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: -20,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          exit={{
+            opacity: 0,
+            y: -20,
+          }}
+          transition={{
+            duration: 0.5,
+            ease: "easeInOut",
+          }}
+        >
+          <DropdownMenuLabel>Profile</DropdownMenuLabel>
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              <MailIcon />
+              {data?.user?.email}
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <UserIcon />
+              {data?.user?.name}
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem onClick={handleSignOut}>
+              <LogOutIcon />
+              Sign Out
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </motion.div>
       </DropdownMenuContent>
     </DropdownMenu>
   );

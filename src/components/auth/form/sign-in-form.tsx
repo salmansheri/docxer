@@ -36,7 +36,7 @@ const formSchema = z.object({
 
 type FormType = z.infer<typeof formSchema>;
 
-const SignUpForm: FC = () => {
+const SignInForm: FC = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -49,11 +49,11 @@ const SignUpForm: FC = () => {
   });
 
   const onSubmit = async (values: FormType) => {
-    console.log(values);
+
     await signIn.email(
       {
         email: values.email,
-        password: values.email,
+        password: values.password,
       },
       {
         onRequest: () => {
@@ -146,4 +146,4 @@ const SignUpForm: FC = () => {
   );
 };
 
-export default SignUpForm;
+export default SignInForm;

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ClimbingBoxLoader } from "react-spinners";
+import {PropagateLoader  } from "react-spinners";
 
 interface LoaderProps {
   className?: string;
@@ -9,7 +9,7 @@ interface LoaderProps {
 const Loader: FC<LoaderProps> = ({ size = 15, className }) => {
   return (
     <div className={className}>
-      <ClimbingBoxLoader size={size} color="#e11d48" />
+      <PropagateLoader size={size} color="#e11d48" />
     </div>
   );
 };

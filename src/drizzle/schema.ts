@@ -67,5 +67,5 @@ export const document = sqliteTable("document", {
 
 export type InsertDocumentType = typeof document.$inferInsert;
 export type SelectDocumentType = typeof document.$inferSelect;
-export type InsertUserType = typeof document.$inferInsert;
-export type SelectUserType = typeof document.$inferSelect;
+export type InsertUserType = typeof user.$inferInsert;
+export type SelectUserType = typeof user.$inferSelect;
