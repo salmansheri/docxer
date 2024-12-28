@@ -15,12 +15,11 @@ import { cn } from "@/lib/utils";
 import { templates } from "@/lib/constants";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useInsertDocuments } from "@/hooks/documents/use-insert-documents";
-import { motion, useInView } from "motion/react";
+import { AnimatePresence, motion, useInView } from "motion/react";
 import DocumentCard from "@/components/documents/document-card";
 import { useSelectDocumentsByOwnerId } from "@/hooks/documents/use-select-documents";
-import Loader from "@/components/ui/loader";
 import { SelectDocumentType } from "@/drizzle/schema";
-import FadeUp from "@/components/ui/motion/animate-on-scroll";
+
 import {
   Pagination,
   PaginationContent,
@@ -34,19 +33,19 @@ const TemplateGallery: FunctionComponent = () => {
   const [isVisible, setIsVisible] = useState(false);
   const searchParams = useSearchParams();
   const queryPage = Number(searchParams.get("page"));
-  console.log(queryPage)
-
-
 
   const [page, setPage] = useState<number>(queryPage);
   const limit = 10;
   const router = useRouter();
 
   const templateRef = useRef<HTMLDivElement>(null);
+  const documentRef = useRef<HTMLDivElement>(null);
+  const isDocumentInView = useInView(documentRef);
+  const [isDocumentVisible, setIsDocumentVisible] = useState(false);
   const isInView = useInView(templateRef);
 
-  const { data: documents, isLoading: isFetchingDocumentLoading } =
-    useSelectDocumentsByOwnerId(page, limit);
+  const { data: documents } =
+    useSelectDocumentsByOwnerId();
 
   const totalDocuments = documents?.length;
   const totalPages = Math.ceil(totalDocuments! / limit);
@@ -69,22 +68,21 @@ const TemplateGallery: FunctionComponent = () => {
   };
 
   const handleNextPage = useCallback(() => {
-    if(page >= totalPages) {
+    if (page >= totalPages) {
       return;
     }
     const nextPage = page + 1;
-    setPage(nextPage)
-    router.push(`/templates?page=${nextPage}`)
+    setPage(nextPage);
+    router.push(`/templates?page=${nextPage}`);
   }, [page, totalPages, router]);
 
   const handlePreviousPage = useCallback(() => {
-    if(page <= 1) {
+    if (page <= 1) {
       return;
     }
-const previousPage = page - 1
+    const previousPage = page - 1;
     setPage(previousPage);
-    router.push(`/templates?page=${previousPage}`)
-
+    router.push(`/templates?page=${previousPage}`);
   }, [page, router]);
 
   useEffect(() => {
@@ -92,14 +90,18 @@ const previousPage = page - 1
       setIsVisible(true);
     }
 
-
-  }, [isInView, isVisible]);
+    if (isDocumentInView && !isDocumentVisible) {
+      setIsDocumentVisible(true);
+    }
+  }, [isInView, isVisible, isDocumentVisible, isDocumentInView]);
 
   useEffect(() => {
-    if(queryPage < 1) {
+    if (queryPage < 1) {
       setPage(1);
     }
   }, [queryPage]);
+
+  console.log({ isDocumentInView, isInView });
 
   return (
     <div>
@@ -125,7 +127,7 @@ const previousPage = page - 1
                   animate={isVisible ? "visible" : "hidden"}
                   transition={{
                     duration: 0.3,
-                    delay: index + 1,
+                    delay: 0.5 * index + 1,
                   }}
                   key={id}
                   className="w-full"
@@ -156,51 +158,60 @@ const previousPage = page - 1
           </CarouselContent>
         </Carousel>
         <div>
-          {isFetchingDocumentLoading ? (
-            <Loader
-              size={25}
-              className="h-full w-full flex items-center justify-center"
-            />
-          ) : (
-            <>
-              {documents?.length === 0 && (
-                <div className="flex items-center justify-center h-full w-full">
-                  <h1 className="text-3xl bg-gradient-to-r from-rose-500 to-pink-700 bg-clip-text text-transparent">
-                    No Recent Documents
-                  </h1>
-                </div>
-              )}
-              <div className="my-16">
-
-
-              <motion.h1
-                initial={{
-                  opacity: 0,
-                  x: -25,
-                }}
-                animate={{
-                  opacity: 1,
-                  x: 0,
-                }}
-                transition={{
-                  duration: 0.5,
-                  ease: "easeInOut"
-                }}
-                className="text-3xl font-bold bg-gradient-to-tr from-rose-500 to-pink-700 bg-clip-text text-transparent">
-                Recent Documents
-              </motion.h1>
-              <div className="flex flex-wrap justify-between gap-5 my-8">
+          <motion.h1
+            initial={{
+              opacity: 0,
+              x: -25,
+            }}
+            animate={{
+              opacity: 1,
+              x: 0,
+            }}
+            transition={{
+              duration: 0.5,
+              ease: "easeInOut",
+            }}
+            className="text-3xl font-bold bg-gradient-to-tr from-rose-500 to-pink-700 bg-clip-text text-transparent my-8"
+          >
+            Recent Documents
+          </motion.h1>
+          <div className="my-16" ref={documentRef}>
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 justify-between gap-5 my-8">
+              <AnimatePresence>
                 {documents
                   ?.slice((page - 1) * limit, page * limit)
                   .map((document: SelectDocumentType, index: number) => (
-                    <FadeUp key={document.id} delay={index + 1}>
+                    <motion.div
+                      ref={documentRef}
+                      key={document.id}
+                      variants={{
+                        initial: {
+                          opacity: 0,
+                          y: 15,
+                        },
+                        animate: {
+                          opacity: 1,
+                          y: 0,
+                          transition: {
+                            duration: 2,
+                            delay: 0.5 * index + 1,
+                          },
+                        },
+                        exit: {
+                          opacity: 0,
+                          scale: 0.5,
+                        },
+                      }}
+                      initial="initial"
+                      animate={isDocumentInView ? "animate" : "initial"}
+                      exit="exit"
+                    >
                       <DocumentCard id={document.id} title={document.title} />
-                    </FadeUp>
+                    </motion.div>
                   ))}
-              </div>
-              </div>
-            </>
-          )}
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
       </div>
       <Pagination>
@@ -221,7 +232,6 @@ const previousPage = page - 1
               </PaginationLink>
             </PaginationItem>
           ))}
-
           <PaginationItem>
             <Button
               onClick={handleNextPage}

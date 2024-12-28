@@ -2,13 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { SelectDocumentType } from "@/drizzle/schema";
 import { API_URL } from "@/lib/utils";
 
-export const useSelectDocumentsByOwnerId = (page?: number, limit?: number) => {
+export const useSelectDocumentsByOwnerId = () => {
   return useQuery<SelectDocumentType[], Error>({
-    queryKey: ["documentByOwnerId", page, limit],
+    queryKey: ["documentByOwnerId"],
 
     queryFn: async () => {
       const response = await fetch(
-        `${API_URL}/documents?page=${page}?limit=${limit}`,
+        `${API_URL}/documents`,
       );
 
       if (!response.ok) throw new Error("Error while fetching documents");

@@ -62,7 +62,7 @@ export function Header() {
             onHoverStart={() => setIsHovered(true)}
             onHoverEnd={() => setIsHovered(false)}
           >
-            <Link href="/sign-in">
+            <Link href="/templates">
               <Button
                 size="lg"
                 className="bg-gradient-to-r from-[#db2777] to-[#d946ef] hover:opacity-90 transition-opacity text-white"

@@ -16,29 +16,10 @@ export async function GET(request: Request) {
   }
 
   try {
-    const { searchParams } = new URL(request.url);
-
-    const page = parseInt(searchParams.get("page") || "1", 10);
-    const limit = parseInt(searchParams.get("limit") || "5", 10);
-
-    if (page < 1 || limit < 1) {
-      return NextResponse.json(
-        { error: "Invalid page number" },
-        { status: 400 },
-      );
-    }
-
-    const offset = (page - 1) * limit;
-
     const documents = await db
       .select()
       .from(document)
-      .where(eq(document.ownerId, session.user.id))
-
-
-
-
-
+      .where(eq(document.ownerId, session.user.id));
 
     return NextResponse.json(
       { message: request.text(), data: documents },
