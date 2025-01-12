@@ -69,10 +69,7 @@ export async function PATCH(
       )
       .returning();
 
-    return NextResponse.json(
-      { data: updateDocument, message: await request.text() },
-      { status: 200 },
-    );
+    return NextResponse.json({ data: updateDocument }, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json(

@@ -1,5 +1,5 @@
 "use client";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { signOut, useSession } from "@/lib/auth-client";
 import { Loader2, LogOutIcon, MailIcon, UserIcon } from "lucide-react";
@@ -13,12 +13,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 
 const UserAvatar: FC = () => {
   const router = useRouter();
 
   const { data, isPending } = useSession();
+  const [isOpen, setIsOpen] = useState(false);
 
   if (isPending) {
     return <Loader2 className="animate-spin" />;
@@ -34,7 +35,7 @@ const UserAvatar: FC = () => {
     });
   };
   return (
-    <DropdownMenu>
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger>
         <Avatar className="border border-zinc-200/30">
           <AvatarFallback className="font-bold">
@@ -42,46 +43,47 @@ const UserAvatar: FC = () => {
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-
-      <DropdownMenuContent>
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: -20,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          exit={{
-            opacity: 0,
-            y: -20,
-          }}
-          transition={{
-            duration: 0.5,
-            ease: "easeInOut",
-          }}
-        >
-          <DropdownMenuLabel>Profile</DropdownMenuLabel>
-          <DropdownMenuGroup>
-            <DropdownMenuItem>
-              <MailIcon />
-              {data?.user?.email}
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <UserIcon />
-              {data?.user?.name}
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem onClick={handleSignOut}>
-              <LogOutIcon />
-              Sign Out
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-        </motion.div>
-      </DropdownMenuContent>
+      <AnimatePresence>
+        <DropdownMenuContent>
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: -20,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            exit={{
+              opacity: 0,
+              y: -20,
+            }}
+            transition={{
+              duration: 0.5,
+              ease: "easeInOut",
+            }}
+          >
+            <DropdownMenuLabel>Profile</DropdownMenuLabel>
+            <DropdownMenuGroup>
+              <DropdownMenuItem>
+                <MailIcon />
+                {data?.user?.email}
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <UserIcon />
+                {data?.user?.name}
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem onClick={handleSignOut}>
+                <LogOutIcon />
+                Sign Out
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </motion.div>
+        </DropdownMenuContent>
+      </AnimatePresence>
     </DropdownMenu>
   );
 };

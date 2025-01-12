@@ -1,5 +1,5 @@
 import { FC } from "react";
-import {PropagateLoader  } from "react-spinners";
+import { PropagateLoader } from "react-spinners";
 
 interface LoaderProps {
   className?: string;

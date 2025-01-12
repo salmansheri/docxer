@@ -4,15 +4,24 @@ import { toast } from "sonner";
 import { InsertDocumentType, SelectDocumentType } from "@/drizzle/schema";
 
 type RequestType = {
-  id: InsertDocumentType["id"];
+  id: string;
+  title: InsertDocumentType["title"];
+  initialContent?: InsertDocumentType["initialContent"];
 };
 
-export const useDeleteDocument = () => {
+export const useUpdateDocuments = () => {
   const queryClient = useQueryClient();
   return useMutation<SelectDocumentType, Error, RequestType>({
-    mutationFn: async ({ id }) => {
-      const response = await fetch(`${API_URL}/documents/${id}`, {
-        method: "DELETE",
+    mutationFn: async (json) => {
+      const response = await fetch(`${API_URL}/documents/${json.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: json.title,
+          initialContent: json.initialContent,
+        }),
       });
       if (!response.ok) {
         throw new Error("An error occurred while Creating documents");
@@ -25,7 +34,7 @@ export const useDeleteDocument = () => {
       const invalidateQueries = queryClient.invalidateQueries({
         queryKey: ["documentByOwnerId"],
       });
-      toast.success("Document Deleted Successfully");
+      toast.success("Document Updated Successfully");
       return await invalidateQueries;
     },
 

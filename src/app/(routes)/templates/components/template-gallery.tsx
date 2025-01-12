@@ -43,9 +43,9 @@ const TemplateGallery: FunctionComponent = () => {
   const isDocumentInView = useInView(documentRef);
   const [isDocumentVisible, setIsDocumentVisible] = useState(false);
   const isInView = useInView(templateRef);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
-  const { data: documents } =
-    useSelectDocumentsByOwnerId();
+  const { data: documents } = useSelectDocumentsByOwnerId();
 
   const totalDocuments = documents?.length;
   const totalPages = Math.ceil(totalDocuments! / limit);
@@ -103,8 +103,19 @@ const TemplateGallery: FunctionComponent = () => {
 
   console.log({ isDocumentInView, isInView });
 
+  const handleUpdateModalClose = useCallback(() => {
+    if (isUpdateModalOpen) {
+      setIsUpdateModalOpen(false);
+    }
+  }, [isUpdateModalOpen]);
+  const handleUpdateModalOpen = useCallback(() => {
+    if (!isUpdateModalOpen) {
+      setIsUpdateModalOpen(true);
+    }
+  }, [isUpdateModalOpen]);
+
   return (
-    <div>
+    <div className="relative">
       <div className="max-w-screen-xl mx-auto px-16 py-6 flex flex-col gap-y-4 ">
         <h3 className="font-medium">Start a new Document</h3>
         <Carousel>
@@ -169,6 +180,7 @@ const TemplateGallery: FunctionComponent = () => {
             }}
             transition={{
               duration: 0.5,
+
               ease: "easeInOut",
             }}
             className="text-3xl font-bold bg-gradient-to-tr from-rose-500 to-pink-700 bg-clip-text text-transparent my-8"
@@ -206,7 +218,13 @@ const TemplateGallery: FunctionComponent = () => {
                       animate={isDocumentInView ? "animate" : "initial"}
                       exit="exit"
                     >
-                      <DocumentCard id={document.id} title={document.title} />
+                      <DocumentCard
+                        handleOpen={handleUpdateModalOpen}
+                        id={document.id}
+                        title={document.title}
+                        isOpen={isUpdateModalOpen}
+                        handleClose={handleUpdateModalClose}
+                      />
                     </motion.div>
                   ))}
               </AnimatePresence>

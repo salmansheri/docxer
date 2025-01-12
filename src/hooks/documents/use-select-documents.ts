@@ -7,9 +7,7 @@ export const useSelectDocumentsByOwnerId = () => {
     queryKey: ["documentByOwnerId"],
 
     queryFn: async () => {
-      const response = await fetch(
-        `${API_URL}/documents`,
-      );
+      const response = await fetch(`${API_URL}/documents`);
 
       if (!response.ok) throw new Error("Error while fetching documents");
 
